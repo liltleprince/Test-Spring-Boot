@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource
 open class Main {
     companion object {
         @JvmStatic
-        fun main(s: Array<String>) {
-            SpringApplication.run(Main::class.java, *s)
+        fun main(args: Array<String>) {
+            SpringApplication.run(Main::class.java, *args)
         }
     }
 }

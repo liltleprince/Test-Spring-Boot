@@ -5,7 +5,7 @@ import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
-open class SongManager {
+class SongManager {
     fun searchSong(songName: String?, currentPage: Int): MutableList<MusicOnline> {
         return if (songName == null) {
             searchMusic("", currentPage,
