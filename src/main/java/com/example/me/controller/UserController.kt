@@ -2,6 +2,7 @@ package com.example.me.controller
 
 import com.example.me.manager.UserManager
 import com.example.me.model.UserData
+import com.example.me.request.LoginRequest
 import com.example.me.request.RegisterRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +21,14 @@ class UserController {
     ): Any {
         return userManager.register(request)
     }
+
+    @PostMapping("/login")
+    fun login(
+            @RequestBody request: LoginRequest
+    ): Any {
+        return userManager.login(request)
+    }
+
 
     @GetMapping("/listUser")
     fun getListUser() : MutableList<UserData> {
