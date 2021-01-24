@@ -2,8 +2,10 @@ package com.example.me.manager
 
 import com.example.me.model.FriendData
 import com.example.me.repo.FriendRepository
+import com.example.me.repo.FriendResponseRepo
 import com.example.me.request.FriendRequest
 import com.example.me.response.CommonResponse
+import com.example.me.response.FriendResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -12,11 +14,13 @@ class FriendManager {
     @Autowired
     private lateinit var friendRepo: FriendRepository
 
-    fun getFriendList(id: Int) : MutableList<FriendData> {
-        return friendRepo.getFriendList(id)
+    @Autowired
+    private lateinit var friendResponseRepo: FriendResponseRepo
+    fun getFriendList(id: Int): Any {
+        return CommonResponse(friendResponseRepo.getFriendList(id))
     }
 
-    fun makeFriendRequest(request: FriendRequest) : CommonResponse {
+    fun makeFriendRequest(request: FriendRequest): CommonResponse {
         val friend = friendRepo.getFriendData(request.senderId, request.receiverId)
         if (friend != null) {
             return CommonResponse(2, "Friend request existed")
@@ -29,10 +33,10 @@ class FriendManager {
         return CommonResponse(friendData)
     }
 
-    fun acceptFriendRequest(request: FriendRequest) : CommonResponse {
+    fun acceptFriendRequest(request: FriendRequest): CommonResponse {
         val friend = friendRepo.getFriendData(request.receiverId, request.senderId)
-        friendRepo.acceptFriend(friend!!.id)
-        friend.status = FriendData.ACCEPTED
+        friend!!.status = FriendData.ACCEPTED
+        friendRepo.save(friend)
         return CommonResponse(friend)
     }
 }
